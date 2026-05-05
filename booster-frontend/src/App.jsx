@@ -1,121 +1,70 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+// ─── App.jsx ─────────────────────────────────────────────────────
+//
+// TEORÍA (React IV — Context API):
+//   App es el componente raíz. Aquí usamos el hook useWebSocket para
+//   obtener los datos del servidor y los metemos en el Provider del
+//   Context. Así, cualquier componente dentro del Provider puede
+//   leer esos datos con useBooster() sin recibir props.
+//
+// LAYOUT:
+//   Una sola pantalla sin scroll (como recomienda el enunciado).
+//   Grid de 3 columnas x 2 filas que ocupa toda la ventana.
+
+import { BoosterContext } from './context/BoosterContext.jsx'
+import { useWebSocket }   from './hooks/useWebSocket.js'
+
+import StatusBar       from './components/StatusBar.jsx'
+import Charts          from './components/Charts.jsx'
+import Controls        from './components/Controls.jsx'
+import Messages        from './components/Messages.jsx'
+import BrakeCalculator from './components/BrakeCalculator.jsx'
+import BoosterModel3D  from './components/BoosterModel3D.jsx'
 
 function App() {
-  const [count, setCount] = useState(0)
+  // useWebSocket nos da los datos del servidor en tiempo real.
+  // Es un custom hook (React III): encapsula toda la lógica del WebSocket.
+  const { datoActual, historial, mensajes, conectado } = useWebSocket()
+
+  // El valor del Provider es lo que todos los componentes hijos
+  // podrán leer con useBooster() — exactamente como en el ejemplo
+  // del PDF React IV (sección 4.1.4 Ejemplo completo)
+  const valorContexto = { datoActual, historial, mensajes, conectado }
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
+    // 2. Provider envuelve todo el árbol de componentes
+    <BoosterContext.Provider value={valorContexto}>
 
-      <div className="ticks"></div>
+      <div style={{
+        display: 'grid',
+        gridTemplateRows: 'auto 1fr 1fr',
+        gridTemplateColumns: '1fr 1fr 1fr',
+        height: '100vh',
+        width: '100vw',
+        gap: '6px',
+        padding: '6px',
+        background: 'var(--bg-main)',
+        overflow: 'hidden',
+      }}>
 
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
+        {/* ── Fila 0: barra de estado (ocupa las 3 columnas) ── */}
+        <div style={{ gridColumn: '1 / -1' }}>
+          <StatusBar />
         </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+        {/* ── Fila 1 ── */}
+        <Charts />          {/* col 1 */}
+        <Controls />        {/* col 2 */}
+        <Messages />        {/* col 3 */}
+
+        {/* ── Fila 2 ── */}
+        <BrakeCalculator /> {/* col 1 */}
+        <div style={{ gridColumn: '2 / 4' }}>
+          <BoosterModel3D />  {/* col 2-3 */}
+        </div>
+
+      </div>
+
+    </BoosterContext.Provider>
   )
 }
 

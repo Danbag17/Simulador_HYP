@@ -13,12 +13,12 @@
 import { BoosterContext } from './context/BoosterContext.jsx'
 import { useWebSocket }   from './hooks/useWebSocket.js'
 
-import StatusBar       from './components/StatusBar.jsx'
-import Charts          from './components/Charts.jsx'
-import Controls        from './components/Controls.jsx'
-import Messages        from './components/Messages.jsx'
-import BrakeCalculator from './components/BrakeCalculator.jsx'
-import BoosterModel3D  from './components/BoosterModel3D.jsx'
+import StatusBar       from './components/Status.jsx'
+import Charts          from './components/graficas.jsx'
+import Controls        from './components/botones.jsx'
+import Messages        from './components/mensajes.jsx'
+import BrakeCalculator from './components/formulario.jsx'
+import BoosterModel3D  from './components/modelo3D.jsx'
 
 function App() {
   // useWebSocket nos da los datos del servidor en tiempo real.

@@ -15,7 +15,7 @@
 //   Respuesta: { braking_position_m: 37.5 }
 
 import { useState } from 'react'
-import { calcularFrenada } from '../api/commands.js'
+import { calcularFrenada } from '../api/comandos.js'
 
 function BrakeCalculator() {
   // Controlled inputs — React III

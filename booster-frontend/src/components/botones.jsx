@@ -19,7 +19,7 @@
 
 import { useState } from 'react'
 import { useBooster } from '../context/BoosterContext.jsx'
-import { enviarComando } from '../api/commands.js'
+import { enviarComando } from '../api/comandos.js'
 
 function Controls() {
   // Controlled input para la masa del carro (necesario para START)

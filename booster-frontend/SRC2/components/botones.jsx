@@ -12,6 +12,7 @@ export function Controles() {
                 body: JSON.stringify({ command: comando })
             });
             console.log("Orden enviada:", comando);
+            
         } catch (error) {
             console.error("Error al enviar comando:", error);
         }

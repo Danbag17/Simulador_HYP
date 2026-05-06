@@ -1,6 +1,6 @@
 import { useWebSocket } from "./hooks/useWebSocket";
 import { useBooster } from "./context/BoosterContext";
-import { botones } from "./components/botones";
+import { Controles } from "./components/botones";
 
 export default function App() {
     useWebSocket();
@@ -25,7 +25,7 @@ export default function App() {
           <Controles />
         </div>  
 
-        
+
 
     </div>
   );

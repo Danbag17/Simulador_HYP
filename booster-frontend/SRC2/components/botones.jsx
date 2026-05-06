@@ -4,7 +4,7 @@ export function Controles() {
     const { telemetria } = useBooster();
 
     // 3. Esta función enviará la orden al backend
-    const enviarComando = async (comando) => {
+    async function enviarComando (comando) {
         try {
             const respuesta = await fetch("http://localhost:8001", {
                 method: "POST",
@@ -14,6 +14,7 @@ export function Controles() {
             console.log("Orden enviada:", comando);
             
         } catch (error) {
+            console.log("Error al enviar comando:", error);
             console.error("Error al enviar comando:", error);
         }
     };

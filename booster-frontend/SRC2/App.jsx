@@ -1,5 +1,6 @@
 import { useWebSocket } from "./hooks/useWebSocket";
 import { useBooster } from "./context/BoosterContext";
+import { botones } from "./components/botones";
 
 export default function App() {
     useWebSocket();
@@ -18,6 +19,14 @@ export default function App() {
           {JSON.stringify(telemetria, null, 2)}
         </pre>
       </div>
+
+        {/* 4. Aquí irán los botones de control */}
+        <div className="mt-6">
+          <Controles />
+        </div>  
+
+        
+
     </div>
   );
 }

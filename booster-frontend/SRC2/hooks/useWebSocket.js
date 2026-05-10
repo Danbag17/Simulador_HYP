@@ -3,6 +3,8 @@ import { useBooster } from "../context/BoosterContext.jsx";
 
 const URL_Backend = "ws://localhost:5001/backend/stream";
 
+const MAX_PUNTOS = 40
+
 export function useWebSocket() {
     
     
@@ -10,7 +12,7 @@ export function useWebSocket() {
       const [conectado, setConectado] = useState(false)
     
     
-    const { setTelemetria , setDatoActual , setHistorial } = useBooster();
+    const { setTelemetria  , setHistorial , setMensajes} = useBooster();
 
     useEffect(() => {
         
@@ -29,21 +31,34 @@ export function useWebSocket() {
 
 
                 setHistorial(prev => {
-                    const nuevo = [...prev, { ...payload, t: Date.now() }]
+                    const nuevo = [...prev, { ...datosNuevos.payload, t: Date.now() }]
                     if (nuevo.length > MAX_PUNTOS) {
                         return nuevo.slice(nuevo.length - MAX_PUNTOS)
                     }
                     return nuevo
                     })
                 
-            };
+            }else if (datosNuevos.topic === "message") {
+                const payload = datosNuevos.payload;
+                
+                setMensajes(prev => {
+                    // Le añadimos la hora exacta al mensaje
+                    const nuevoMensaje = { ...payload, hora: new Date().toLocaleTimeString() };
+                    // Lo ponemos el primero de la lista
+                    const nuevaLista = [nuevoMensaje, ...prev];
+                    
+                    // Nos quedamos solo con los 10 últimos para que no explote la web
+                    return nuevaLista.slice(0, 10); 
+                });
+            }
+        }
 
-          ws.onclose = () => {
+          socket.onclose = () => {
              setConectado(false)
             console.log(" Desconectado del simulador");
         }
 
-        ws.onerror = () => {
+        socket.onerror = () => {
             setConectado(false)
             console.error("Error en la conexión WebSocket");
         }

@@ -3,21 +3,16 @@ import { createContext , useContext , useState} from "react";
 export const BoosterContext = createContext();
 
 export function BoosterProvider({ children }) {
-  
-  const [mensajes, setMensajes] = useState([]);
-  const [telemetria, setTelemetria] = useState({
-    state: "IDLE",
-    position_m: 0,
-    velocity_kmh: 0,
-    acceleration_ms2: 0,
-    mass_kg: 0,
-    voltage_v: 0,
-    current_a: 0
-    });
 
+  // useState: historial de datos para las gráficas (array circular)
+  const [historial, setHistorial] = useState([])
+
+
+  const [mensajes, setMensajes] = useState([]);
+  const [telemetria, setTelemetria] = useState(null);
 
   return (
-    <BoosterContext.Provider value={{ mensajes, setMensajes, telemetria, setTelemetria }}>
+    <BoosterContext.Provider value={{ mensajes, setMensajes, telemetria, setTelemetria, historial, setHistorial }}>
       {children}
     </BoosterContext.Provider>
   );

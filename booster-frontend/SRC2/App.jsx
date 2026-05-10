@@ -9,6 +9,8 @@ export default function App() {
     const { telemetria } = useBooster();
 
  return (
+
+  
     <div className="p-10 bg-gray-50 min-h-screen font-sans">
       <h1 className="text-4xl font-black text-blue-900 mb-8">
         BOOSTER <span className="text-blue-500 text-xl font-light">v2.0</span>

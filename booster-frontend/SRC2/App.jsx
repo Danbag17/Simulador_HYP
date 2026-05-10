@@ -1,32 +1,27 @@
 import { useWebSocket } from "./hooks/useWebSocket";
 import { useBooster } from "./context/BoosterContext";
-import { Controles } from "./components/botones";
+import { Botones} from "./components/botones";
+import { Status } from "./components/Status";
 
 export default function App() {
-    useWebSocket();
-      const { telemetria } = useBooster();
 
-  return (
-    <div className="p-10 font-sans">
-      <h1 className="text-3xl font-bold text-blue-600 mb-6">
-        Simulador Hyperloop
+    useWebSocket();
+    const { telemetria } = useBooster();
+
+ return (
+    <div className="p-10 bg-gray-50 min-h-screen font-sans">
+      <h1 className="text-4xl font-black text-blue-900 mb-8">
+        BOOSTER <span className="text-blue-500 text-xl font-light">v2.0</span>
       </h1>
       
-      {/* 3. Imprimimos los datos en crudo para comprobar que funciona */}
-      <div className="bg-gray-100 p-6 rounded-lg shadow-md">
-        <h2 className="text-xl font-semibold mb-4">Telemetría en tiempo real:</h2>
-        <pre className="bg-black text-green-400 p-4 rounded">
-          {JSON.stringify(telemetria, null, 2)}
-        </pre>
+      {/* El panel de estado que acabamos de crear */}
+      <Status />
+
+      {/* Los botones de control */}
+      <div className="mt-10">
+        <h2 className="text-sm font-bold text-gray-400 mb-4 uppercase tracking-widest">Controles de Misión</h2>
+        <Botones />
       </div>
-
-        {/* 4. Aquí irán los botones de control */}
-        <div className="mt-6">
-          <Controles />
-        </div>  
-
-
-
     </div>
   );
 }

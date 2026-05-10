@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useBooster } from "../context/BoosterContext.jsx";
 
-const URL_Backend = "ws://localhost:5001";
+const URL_Backend = "ws://localhost:5001/backend/stream";
 
 export function useWebSocket() {
     
@@ -17,7 +17,10 @@ export function useWebSocket() {
 
         socket.onmessage = (evento) => {
             const datosNuevos = JSON.parse(evento.data);
-            setTelemetria(datosNuevos);
+            if(datosNuevos.topic == "data"){
+                console.log("Datos recibidos:", datosNuevos);
+                 setTelemetria(datosNuevos);
+            }
         };
 
         return () => {

@@ -1,52 +1,87 @@
-import { useBooster } from "../context/BoosterContext.jsx";
+import { useState } from "react";
+import { useBooster } from "../context/BoosterContext";
 
-export function Controles() {
-    const { telemetria } = useBooster();
+export function Botones() {
+    // 1. Estado para guardar la masa que escriba el usuario (por defecto 40kg)
+    const [masa, setMasa] = useState(40); 
 
-    // 3. Esta función enviará la orden al backend
-    async function enviarComando (comando) {
+    const enviarComando = async (comando) => {
         try {
-            const respuesta = await fetch("http://localhost:8001", {
+            // Preparamos el paquete base
+            const bodyData = { command: comando };
+
+            // 2. Si la orden es START, el backend EXIGE que le pasemos la masa
+            if (comando === "START") {
+                bodyData.payload = { mass: Number(masa) };
+            }
+
+            const respuesta = await fetch("http://localhost:8001/api/command", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ command: comando })
+                body: JSON.stringify(bodyData)
             });
-            console.log("Orden enviada:", comando);
+
+            if (respuesta.ok) {
+                console.log(`✅ Orden [${comando}] aceptada por el simulador`);
+            } else {
+                console.error(`⚠️ El simulador rechazó la orden. Código: ${respuesta.status}`);
+            }
             
         } catch (error) {
-            console.log("Error al enviar comando:", error);
-            console.error("Error al enviar comando:", error);
+            console.error("❌ Error de conexión", error);
         }
     };
 
     return (
-        <div className="flex gap-4 mt-6 p-4 bg-gray-100 rounded-lg shadow-md w-fit">
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 w-fit">
+            <h3 className="text-gray-400 font-bold text-xs mb-4 tracking-widest">SECUENCIA DE ENCENDIDO</h3>
             
-            {/* Botón START (Verde) */}
-            <button 
-                onClick={() => enviarComando("START")}
-                className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-8 rounded-lg shadow transition-colors"
-            >
-                START
-            </button>
+            <div className="flex gap-4 items-end">
+                
+                {/* 1. Botón PRECHARGE (Amarillo) */}
+                <button 
+                    onClick={() => enviarComando("PRECHARGE")}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white font-bold py-3 px-6 rounded-lg shadow transition-colors"
+                >
+                    1. PRECHARGE
+                </button>
 
-            {/* Botón STOP (Naranja/Amarillo) */}
-            <button 
-                onClick={() => enviarComando("STOP")}
-                className="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-8 rounded-lg shadow transition-colors"
-            >
-                STOP
-            </button>
+                {/* Input de Masa */}
+                <div className="flex flex-col gap-1 mx-2">
+                    <label className="text-[10px] font-bold text-gray-400">MASA (kg)</label>
+                    <input 
+                        type="number" 
+                        value={masa}
+                        onChange={(e) => setMasa(e.target.value)}
+                        className="border border-gray-300 rounded px-3 py-3 w-20 text-center font-mono font-bold text-gray-700 focus:outline-none focus:border-blue-500"
+                    />
+                </div>
 
-            {/* Botón EMERGENCY (Rojo) */}
-            <button 
-                onClick={() => enviarComando("EMERGENCY")}
-                className="bg-red-600 hover:bg-red-800 text-white font-bold py-3 px-8 rounded-lg shadow transition-colors"
-            >
-                EMERGENCY
-            </button>
+                {/* 2. Botón START (Verde) */}
+                <button 
+                    onClick={() => enviarComando("START")}
+                    className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-6 rounded-lg shadow transition-colors"
+                >
+                    2. START
+                </button>
 
+                {/* 3. Botón BRAKE (Rojo) */}
+                <button 
+                    onClick={() => enviarComando("BRAKE")}
+                    className="bg-red-600 hover:bg-red-800 text-white font-bold py-3 px-6 rounded-lg shadow transition-colors"
+                >
+                    3. BRAKE
+                </button>
+
+                 {/* Botón RESET (Gris) */}
+                 <button 
+                    onClick={() => enviarComando("RESET")}
+                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-3 px-6 rounded-lg shadow transition-colors"
+                >
+                    RESET
+                </button>
+
+            </div>
         </div>
     );
-
 }

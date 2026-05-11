@@ -50,7 +50,7 @@ export function Calculadora() {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 w-full mt-6">
+            <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 w-full">
             <h3 className="text-gray-400 font-bold text-xs mb-4 tracking-widest flex items-center gap-2">
                 <span className="w-2 h-2 bg-purple-500 rounded-full"></span>
                 CALCULADORA DE FRENADO ÓPTIMO

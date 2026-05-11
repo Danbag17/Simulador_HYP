@@ -1,4 +1,4 @@
-import { useEffect , useState } from "react";
+import { useEffect  } from "react";
 import { useBooster } from "../context/BoosterContext.jsx";
 
 const URL_Backend = "ws://localhost:5001/backend/stream";
@@ -9,9 +9,9 @@ export function useWebSocket() {
     
     
       // estado de la conexión WebSocket
-        const { setConectado } = useBooster();    
+          
     
-    const { setTelemetria  , setHistorial , setMensajes} = useBooster();
+    const { setConectado ,setTelemetria  , setHistorial , setMensajes} = useBooster();
 
     useEffect(() => {
         

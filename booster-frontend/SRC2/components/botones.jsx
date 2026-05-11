@@ -56,7 +56,7 @@ export function Botones() {
     };
 
     return (
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 w-fit">
+            <div className="bg-white p-3 rounded-lg shadow-sm border border-gray-200 w-fit">
             <h3 className="text-gray-400 font-bold text-xs mb-4 tracking-widest">SECUENCIA DE ENCENDIDO</h3>
             
             <div className="flex gap-4 items-end">

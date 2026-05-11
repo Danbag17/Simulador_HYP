@@ -1,5 +1,4 @@
 import { useWebSocket } from "./hooks/useWebSocket";
-import { useBooster } from "./context/BoosterContext";
 import { Botones } from "./components/botones";
 import { Status } from "./components/Status";
 import { Graficas } from "./components/graficas";
@@ -12,7 +11,6 @@ import './App.css';
 
 export default function App() {
     useWebSocket();
-    const { telemetria } = useBooster();
 
     return (
         /*

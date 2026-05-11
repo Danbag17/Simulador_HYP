@@ -9,8 +9,7 @@ export function useWebSocket() {
     
     
       // estado de la conexión WebSocket
-      const [conectado, setConectado] = useState(false)
-    
+        const { setConectado } = useBooster();    
     
     const { setTelemetria  , setHistorial , setMensajes} = useBooster();
 

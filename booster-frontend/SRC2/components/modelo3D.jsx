@@ -1,49 +1,43 @@
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
-import { OrbitControls, useGLTF, Stage, Html } from '@react-three/drei';
+import { OrbitControls, useGLTF, Stage } from '@react-three/drei';
 
-function ModeloCarro(props) {
-  const { scene } = useGLTF('/carro_booster.glb'); 
-  return <primitive object={scene} {...props} />;
+function CarroBooster() {
+    // IMPORTANTE: Si tu archivo no se llama 'booster.glb', cambia el nombre aquí
+    const { scene } = useGLTF('/modelo/Ensamblaje_Provisional_sinLetras.glb'); 
+    
+    return <primitive object={scene} />;
 }
 
-function Loader() {
-  return (
-    <Html center>
-      <div className="text-white text-sm font-semibold animate-pulse">
-        Cargando Carro Booster...
-      </div>
-    </Html>
-  );
-}
-
-export default function Visor3D() {
-  return (
-    <div className="w-full h-full min-h-[400px] bg-slate-900 rounded-xl overflow-hidden relative border border-slate-700 shadow-lg">
-      
-      {/* Etiqueta indicativa */}
-      <div className="absolute top-4 left-4 z-10 text-slate-300 text-sm font-bold pointer-events-none bg-slate-800/50 px-3 py-1 rounded-md backdrop-blur-sm">
-        Vista 3D Interactiva
-      </div>
-
-      {/* Lienzo 3D */}
-      <Canvas shadows camera={{ position: [4, 2, 5], fov: 45 }}>
-        <Suspense fallback={<Loader />}>
-            <Stage environment="city" intensity={0.5} adjustCamera={1.2}>
-            <ModeloCarro />
-          </Stage>
-
-        </Suspense>
-
-        {/* Controles para que el usuario pueda rotar y hacer zoom con el ratón */}
-        <OrbitControls 
-          makeDefault 
-          autoRotate 
-          autoRotateSpeed={0.5} 
-          minPolarAngle={Math.PI / 4}
-          maxPolarAngle={Math.PI / 2} 
-        />
-      </Canvas>
-    </div>
-  );
+export function Modelo3D() {
+    return (
+        <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200 w-full h-[400px] flex flex-col">
+            <h3 className="text-gray-400 font-bold text-xs mb-4 tracking-widest flex items-center gap-2 uppercase">
+                <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+                Visualización Telemetría 3D
+            </h3>
+            
+            <div className="flex-1 bg-slate-50 rounded-lg overflow-hidden border border-gray-100 cursor-grab active:cursor-grabbing">
+                <Canvas shadows camera={{ position: [4, 2, 4], fov: 45 }}>
+                    {/* Stage configura automáticamente luces y sombras profesionales */}
+                    <Stage environment="city" intensity={0.5} contactShadow={{ opacity: 0.7, blur: 2 }}>
+                        <Suspense fallback={null}>
+                            <CarroBooster />
+                        </Suspense>
+                    </Stage>
+                    
+                    <OrbitControls 
+                        enablePan={false} 
+                        autoRotate 
+                        autoRotateSpeed={0.5}
+                        maxPolarAngle={Math.PI / 2} 
+                    />
+                </Canvas>
+            </div>
+            
+            <p className="mt-2 text-[10px] text-gray-400 text-center italic">
+                Usa el ratón para rotar y hacer zoom sobre el prototipo
+            </p>
+        </div>
+    );
 }

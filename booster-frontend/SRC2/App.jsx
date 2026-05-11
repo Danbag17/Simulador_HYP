@@ -5,7 +5,7 @@ import { Graficas } from "./components/graficas";
 import { Botones } from "./components/botones";
 import { Calculadora } from "./components/formulario.jsx";
 import { Mensajes } from "./components/Mensajes.jsx";
-import { Modelo3D } from "./components/modelo3D.jsx";
+import { Modelo3D} from "./components/modelo3D.jsx";
 import './App.css';
 
 export default function App() {

@@ -107,15 +107,14 @@ export function Botones() {
                 </button>
 
             </div>
-            {feedback && (
-                    <div className={`mt-4 px-4 py-3 rounded-lg text-sm font-mono font-bold border ${
-                        feedback.tipo === 'error'
-                            ? 'bg-red-50 border-red-200 text-red-700'
-                            : 'bg-green-50 border-green-200 text-green-700'
-                    }`}>
-                        {feedback.texto}
-                    </div>
+            <div className="mt-4 min-h-[48px] px-4 py-3 rounded-lg text-sm font-mono font-bold border">
+                {feedback && feedback.tipo === 'error' && (
+                    <span className="text-red-700"> {feedback.texto}</span>
                 )}
+                {feedback && feedback.tipo === 'ok' && (
+                    <span className="text-green-700">✓ {feedback.texto}</span>
+                )}
+            </div>
         </div>
     );
 }

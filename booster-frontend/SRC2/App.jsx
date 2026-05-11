@@ -1,11 +1,10 @@
 import { useWebSocket } from "./hooks/useWebSocket";
-import { Botones } from "./components/botones";
 import { Status } from "./components/Status";
-import { Graficas } from "./components/graficas";
-import { Mensajes } from "./components/Mensajes.jsx";
-import { Calculadora } from "./components/formulario.jsx";
-// AÑADIDO: importamos el nuevo componente de cronograma requerido por el enunciado
 import { CronogramaEstados } from "./components/CronogramaEstados.jsx";
+import { Graficas } from "./components/graficas";
+import { Botones } from "./components/botones";
+import { Calculadora } from "./components/formulario.jsx";
+import { Mensajes } from "./components/Mensajes.jsx";
 import { Modelo3D } from "./components/modelo3D.jsx";
 import './App.css';
 
@@ -13,53 +12,47 @@ export default function App() {
     useWebSocket();
 
     return (
-        /*
-         * CORREGIDO: antes era "min-h-screen" (permitía scroll si el contenido crecía).
-         * Ahora es "h-screen overflow-hidden" para que todo quepa en una sola pantalla
-         * sin scroll, tal como recomienda el enunciado ("panel de control, sin scroll").
-         *
-         * Layout: 3 columnas con grid. La columna central concentra los controles.
-         */
-        <div className="h-screen overflow-hidden bg-gray-50 font-sans flex flex-col p-3 gap-3">
+        <div className="h-screen overflow-hidden bg-slate-100 font-sans flex flex-col">
 
-            {/* Fila superior: título + barra de estado */}
-            <div className="flex-shrink-0">
-                <div className="flex items-center gap-4 mb-2">
-                    <h1 className="text-2xl font-black text-blue-900">
-                        BOOSTER <span className="text-blue-500 text-sm font-light">v2.0</span>
-                    </h1>
+            {/* ── Header: título + status en una sola línea compacta ── */}
+            <header className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-2 flex items-center gap-4">
+                <h1 className="text-base font-black text-blue-900 tracking-tight whitespace-nowrap">
+                    BOOSTER <span className="text-blue-400 font-light text-xs">v2.0</span>
+                </h1>
+                <div className="flex-1">
+                    <Status />
                 </div>
-                <Status />
-            </div>
+            </header>
 
-            {/* AÑADIDO: cronograma de estados debajo del status — requerido por el enunciado */}
-            <div className="flex-shrink-0">
+            {/* ── Cronograma: franja fina debajo del header ── */}
+            <div className="flex-shrink-0 px-4 pt-2">
                 <CronogramaEstados />
             </div>
 
-            {/* Cuerpo principal: 3 columnas */}
-            <div className="flex-1 overflow-hidden grid grid-cols-3 gap-3 min-h-0">
+            {/* ── Cuerpo: 2 columnas ── */}
+            <div className="flex-1 overflow-hidden grid grid-cols-2 gap-3 p-3 pt-2 min-h-0">
 
-                {/* Columna 1: Gráficas */}
-                <div className="overflow-y-auto">
-                    <Graficas />
+                {/* Columna izquierda: gráficas encima, mensajes debajo */}
+                <div className="flex flex-col gap-3 min-h-0 overflow-hidden">
+                    <div className="flex-1 min-h-0 overflow-hidden">
+                        <Graficas />
+                    </div>
+                    <div className="flex-shrink-0 h-[160px]">
+                        <Mensajes />
+                    </div>
                 </div>
 
-                {/* Columna 2: Controles + Calculadora */}
-                <div className="overflow-y-auto flex flex-col gap-3">
-                    <div>
-                        <h2 className="text-sm font-bold text-gray-400 mb-2 uppercase tracking-widest">
-                            Controles de misión
-                        </h2>
+                {/* Columna derecha: botones + calculadora + 3D */}
+                <div className="flex flex-col gap-3 min-h-0 overflow-hidden">
+                    <div className="flex-shrink-0">
                         <Botones />
                     </div>
-                    <Calculadora />
-                </div>
-
-                {/* Columna 3: Mensajes + 3D */}
-                <div className="overflow-y-auto flex flex-col gap-3">
-                    <Mensajes />
-                    <Modelo3D />
+                    <div className="flex-shrink-0">
+                        <Calculadora />
+                    </div>
+                    <div className="flex-1 min-h-0 overflow-hidden">
+                        <Modelo3D />
+                    </div>
                 </div>
 
             </div>

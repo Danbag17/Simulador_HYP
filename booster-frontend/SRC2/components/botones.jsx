@@ -4,17 +4,27 @@ import { useBooster } from "../context/BoosterContext";
 export function Botones() {
     // 1. Estado para guardar la masa que escriba el usuario (por defecto 40kg)
     const [masa, setMasa] = useState(40); 
+    const [feedback, setFeedback] = useState(null);
 
-    const enviarComando = async (comando) => {
-        try {
-            // Preparamos el paquete base
-            const bodyData = { command: comando };
+    const { telemetria } = useBooster();
+    const estado = telemetria?.state ?? 'IDLE';
 
-            // 2. Si la orden es START, el backend EXIGE que le pasemos la masa
-            if (comando === "START") {
-                bodyData.payload = { mass: Number(masa) };
+    const enviarComando = async (comando) => { 
+
+             if (comando === "START") {
+                const masaNum = parseFloat(masa);
+                if (isNaN(masaNum) || masaNum <= 0) {
+                    setFeedback({ tipo: 'error', texto: 'La masa debe ser un número mayor que 0.' });
+                    return;
             }
 
+           setFeedback(null); // Limpiamos feedback previo
+
+           try {
+            const bodyData = { command: comando };
+             if (comando === "START") {
+                bodyData.payload = { mass: Number(masa) };
+            }
             const respuesta = await fetch("http://localhost:8001/api/command", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -22,13 +32,25 @@ export function Botones() {
             });
 
             if (respuesta.ok) {
-                console.log(`✅ Orden [${comando}] aceptada por el simulador`);
+                setFeedback({ tipo: 'ok', texto: `Orden [${comando}] aceptada por el simulador` });
             } else {
-                console.error(`⚠️ El simulador rechazó la orden. Código: ${respuesta.status}`);
+                    let textoDeError = "";
+
+                if (respuesta.status === 400) {
+                    textoDeError = `Comando ${comando} no permitido en el estado actual (${estado}).`;
+                } else {
+                    textoDeError = `Error ${respuesta.status}: no se pudo procesar la orden.`;
+                }
+
+                setFeedback({ tipo: 'error', texto: textoDeError });
             }
+                   
+
+            
             
         } catch (error) {
-            console.error("❌ Error de conexión", error);
+            setFeedback({ tipo: 'error', texto: "Error de conexión con el simulador" });    
+            console.error(" Error de conexión", error);
         }
     };
 
@@ -52,6 +74,8 @@ export function Botones() {
                     <input 
                         type="number" 
                         value={masa}
+                        min="0.1"
+                        step="0.1"
                         onChange={(e) => setMasa(e.target.value)}
                         className="border border-gray-300 rounded px-3 py-3 w-20 text-center font-mono font-bold text-gray-700 focus:outline-none focus:border-blue-500"
                     />
@@ -82,6 +106,15 @@ export function Botones() {
                 </button>
 
             </div>
+            {feedback && (
+                <div className={`mt-4 px-4 py-3 rounded-lg text-sm font-mono font-bold border ${
+                    feedback.tipo === 'error'
+                        ? 'bg-red-50 border-red-200 text-red-700'
+                        : 'bg-green-50 border-green-200 text-green-700'
+                }`}>
+                    {feedback.tipo === 'error' ? '⚠️ ' : '✓ '}{feedback.texto}
+                </div>
+            )}
         </div>
     );
 }

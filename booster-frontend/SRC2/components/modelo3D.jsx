@@ -15,7 +15,7 @@ class ErrorBoundary3D extends Component {
             return (
                 <div className="w-full h-full flex items-center justify-center bg-slate-50 rounded-lg">
                     <p className="text-gray-400 text-xs font-mono">
-                        Modelo 3D no disponible — coloca el .glb en public/modelo/
+                        Modelo 3D no disponible
                     </p>
                 </div>
             );

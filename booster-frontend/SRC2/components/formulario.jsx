@@ -11,8 +11,6 @@ export function Calculadora() {
         setError("");
         setResultado(null);
 
-        // AÑADIDO: validación de inputs en el frontend antes de enviar
-        // El enunciado exige "el frontend deberá validar los inputs antes de enviarlos"
         const masaNum = parseFloat(masa);
         const distanciaNum = parseFloat(distancia);
 
@@ -92,11 +90,10 @@ export function Calculadora() {
                 </button>
             </div>
 
-            {/* CORREGIDO: antes el área de error era solo texto rojo pequeño sin contexto visual */}
-            {/* Ahora tiene fondo coloreado, icono y mensaje explicativo, igual que el panel de botones */}
+            
             {error && (
                 <div className="mt-4 px-4 py-3 rounded-lg text-sm font-mono border bg-red-50 border-red-200 text-red-700">
-                    ⚠️ {error}
+                    {error}
                 </div>
             )}
 

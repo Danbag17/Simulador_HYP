@@ -20,15 +20,13 @@ export function Mensajes() {
                 LOGS DEL SISTEMA
             </h3>
             
-            {/* Contenedor donde van los textos, con scroll si hay muchos */}
             <div className="flex-1 overflow-y-auto font-mono text-xs flex flex-col gap-1.5 pr-2">
                 
-                {/* 2. El texto de espera (Renderizado Condicional) */}
                 {(!mensajes || mensajes.length === 0) && (
                     <span className="text-gray-600 animate-pulse">Esperando eventos del simulador...</span>
                 )}
                 
-                {/* 3. La lista de mensajes (Renderizado de Listas) */}
+                {/*La lista de mensajes*/}
                 {mensajes?.map((msg, index) => (
                     <div key={index} className="border-b border-gray-800 pb-1.5 mb-1">
                         <span className="text-gray-500 mr-2">[{msg.hora}]</span>

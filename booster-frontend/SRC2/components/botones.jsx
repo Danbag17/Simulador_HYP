@@ -2,13 +2,13 @@ import { useState } from "react";
 import { useBooster } from "../context/BoosterContext";
 
 export function Botones() {
-    // 1. Estado para guardar la masa que escriba el usuario (por defecto 40kg)
     const [masa, setMasa] = useState(40); 
     const [feedback, setFeedback] = useState(null);
 
     const { telemetria } = useBooster();
     const estado = telemetria?.state ?? 'IDLE';
 
+    //Función que despues los botones llamarán para enviar el comando al backend
     const enviarComando = async (comando) => { 
 
              if (comando === "START") {

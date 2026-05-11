@@ -1,5 +1,6 @@
 import { useBooster } from "../context/BoosterContext.jsx";
 
+//colores para que despues vayan cambiando de color los estados 
 const ESTADOS_CONFIG = {
     IDLE:      { color: '#94a3b8', label: 'IDLE' },
     PRECHARGE: { color: '#eab308', label: 'PRECHARGE' },
@@ -22,9 +23,13 @@ export function CronogramaEstados() {
         }
     }
 
-    const estadoActual = historialSeguro.length > 0
-        ? historialSeguro[historialSeguro.length - 1].state
-        : 'IDLE';
+    let estadoActual;
+
+    if (historialSeguro.length > 0) {
+        estadoActual = historialSeguro[historialSeguro.length - 1].state;
+    } else {
+        estadoActual = 'IDLE';
+    }
 
     return (
         <div className="bg-white rounded-lg border border-gray-200 shadow-sm px-3 py-2 flex items-center gap-3">
@@ -35,6 +40,7 @@ export function CronogramaEstados() {
                 {Object.entries(ESTADOS_CONFIG).map(([key, cfg], i) => {
                     const esActual = key === estadoActual;
                     const fuePasado = transiciones.some(t => t.estado === key);
+                    
                     return (
                         <div key={key} className="flex items-center gap-1 flex-shrink-0">
                             <span

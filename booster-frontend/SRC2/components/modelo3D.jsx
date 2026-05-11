@@ -1,30 +1,49 @@
-import { Suspense } from 'react';
+import React, { Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, useGLTF, Stage, Html } from '@react-three/drei';
 
-export function Modelo3D() {
-    return (
-        <div className="bg-gray-900 p-6 rounded-lg shadow-sm border border-gray-700 w-full mt-6 h-[400px] flex flex-col">
-            <h3 className="text-gray-400 font-bold text-xs mb-4 tracking-widest flex items-center gap-2">
-                <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-                VISUALIZADOR 3D - CARRO BOOSTER
-            </h3>
-            
-            {/* El contenedor donde vivirá el 3D */}
-            <div className="flex-1 bg-gray-800 rounded-lg overflow-hidden relative flex items-center justify-center border border-gray-700">
-                
-                {/* =======================================================
-                  AQUÍ RELLENAREMOS CON NUESTRO PLATÓ DE CINE (CANVAS)
-                  1. Pondremos el <Canvas>
-                  2. Pondremos las luces <ambientLight> y <directionalLight>
-                  3. Pondremos el modelo <CarroBooster />
-                  4. Pondremos los controles de cámara <OrbitControls>
-                  =======================================================
-                */}
+function ModeloCarro(props) {
+  const { scene } = useGLTF('/carro_booster.glb'); 
+  return <primitive object={scene} {...props} />;
+}
 
-                <span className="text-gray-500 font-mono animate-pulse">
-                    [ Aquí insertaremos el Canvas 3D... ]
-                </span>
+function Loader() {
+  return (
+    <Html center>
+      <div className="text-white text-sm font-semibold animate-pulse">
+        Cargando Carro Booster...
+      </div>
+    </Html>
+  );
+}
 
-            </div>
-        </div>
-    );
+export default function Visor3D() {
+  return (
+    <div className="w-full h-full min-h-[400px] bg-slate-900 rounded-xl overflow-hidden relative border border-slate-700 shadow-lg">
+      
+      {/* Etiqueta indicativa */}
+      <div className="absolute top-4 left-4 z-10 text-slate-300 text-sm font-bold pointer-events-none bg-slate-800/50 px-3 py-1 rounded-md backdrop-blur-sm">
+        Vista 3D Interactiva
+      </div>
+
+      {/* Lienzo 3D */}
+      <Canvas shadows camera={{ position: [4, 2, 5], fov: 45 }}>
+        <Suspense fallback={<Loader />}>
+            <Stage environment="city" intensity={0.5} adjustCamera={1.2}>
+            <ModeloCarro />
+          </Stage>
+
+        </Suspense>
+
+        {/* Controles para que el usuario pueda rotar y hacer zoom con el ratón */}
+        <OrbitControls 
+          makeDefault 
+          autoRotate 
+          autoRotateSpeed={0.5} 
+          minPolarAngle={Math.PI / 4}
+          maxPolarAngle={Math.PI / 2} 
+        />
+      </Canvas>
+    </div>
+  );
 }

@@ -17,6 +17,7 @@ export function Botones() {
                     setFeedback({ tipo: 'error', texto: 'La masa debe ser un número mayor que 0.' });
                     return;
             }
+        }
 
            setFeedback(null); // Limpiamos feedback previo
 
@@ -107,14 +108,14 @@ export function Botones() {
 
             </div>
             {feedback && (
-                <div className={`mt-4 px-4 py-3 rounded-lg text-sm font-mono font-bold border ${
-                    feedback.tipo === 'error'
-                        ? 'bg-red-50 border-red-200 text-red-700'
-                        : 'bg-green-50 border-green-200 text-green-700'
-                }`}>
-                    {feedback.tipo === 'error' ? '⚠️ ' : '✓ '}{feedback.texto}
-                </div>
-            )}
+                    <div className={`mt-4 px-4 py-3 rounded-lg text-sm font-mono font-bold border ${
+                        feedback.tipo === 'error'
+                            ? 'bg-red-50 border-red-200 text-red-700'
+                            : 'bg-green-50 border-green-200 text-green-700'
+                    }`}>
+                        {feedback.texto}
+                    </div>
+                )}
         </div>
     );
 }

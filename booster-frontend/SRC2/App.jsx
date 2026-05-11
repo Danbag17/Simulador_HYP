@@ -15,7 +15,7 @@ export default function App() {
             <div className="h-screen overflow-hidden bg-gray-50 font-sans flex flex-col p-3 gap-3">            {/* ── Header: título + status en una sola línea compacta ── */}
             <header className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-2 flex items-center gap-4">
                 <h1 className="text-base font-black text-blue-900 tracking-tight whitespace-nowrap">
-                    BOOSTER <span className="text-blue-400 font-light text-xs">v2.0</span>
+                    BOOSTER <span className="text-blue-400 font-light text-xs"></span>
                 </h1>
                 <div className="flex-1">
                     <Status />

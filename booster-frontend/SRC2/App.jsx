@@ -12,7 +12,7 @@ export default function App() {
     useWebSocket();
 
     return (
-            <div className="h-screen overflow-hidden bg-gray-50 font-sans flex flex-col p-3 gap-3">            {/* ── Header: título + status en una sola línea compacta ── */}
+           <div className="min-h-screen bg-gray-50 font-sans flex flex-col p-3 gap-3">            {/* ── Header: título + status en una sola línea compacta ── */}
             <header className="flex-shrink-0 bg-white border-b border-gray-200 px-4 py-2 flex items-center gap-4">
                 <h1 className="text-base font-black text-blue-900 tracking-tight whitespace-nowrap">
                     BOOSTER <span className="text-blue-400 font-light text-xs"></span>

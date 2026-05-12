@@ -330,6 +330,7 @@ Para que el frontend funcione completamente se necesitan dos servicios activos:
 Se requiere que no se pueda hacer scroll pero a mi parecer como no hay reajustamiento de los componentes he dejado el scroll para que de igual el tamaño de la pantalla se pueda acceder a todos los componentes.
 Despues si se revisa el codigo se veran varias advertencias, no influyen en el desempeño de la web entonces no hace falta alarmarse.
 La sibreria para hacer el css ( Tailwind css ) la he usado para el proyecto pero es horrible no me quedo muy claro todas las opciones.
+Al ejecutar el programa en el visual la seccion del 3d se ve diferente a como deberia verse pero si se pone en el navegador web va bien.
 
 
 Ambos servicios deben estar en marcha **antes** de abrir la aplicación en el navegador.

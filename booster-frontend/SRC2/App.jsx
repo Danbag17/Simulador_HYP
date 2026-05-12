@@ -6,7 +6,7 @@ import { Botones } from "./components/botones.jsx";
 import { Calculadora } from "./components/formulario.jsx";
 import { Mensajes } from "./components/mensajes.jsx";
 import { Modelo3D} from "./components/modelo3D.jsx";
-import './App.css';
+
 
 export default function App() {
     useWebSocket();

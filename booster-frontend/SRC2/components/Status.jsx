@@ -1,4 +1,4 @@
-import { useBooster } from '../context/BoosterContext.jsx';
+import { useBooster } from '../context/boosterContext.jsx';
 
 export function Status() {
     const { telemetria } = useBooster();

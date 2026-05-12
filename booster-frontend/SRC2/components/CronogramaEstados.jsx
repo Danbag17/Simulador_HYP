@@ -1,4 +1,4 @@
-import { useBooster } from "../context/BoosterContext.jsx";
+import { useBooster } from "../context/boosterContext.jsx";
 
 //colores para que despues vayan cambiando de color los estados 
 const ESTADOS_CONFIG = {

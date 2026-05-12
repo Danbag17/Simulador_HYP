@@ -1,11 +1,11 @@
-import { useWebSocket } from "./hooks/UseWebSocket.js";
-import { Status } from "./components/Status";
-import { CronogramaEstados } from "./components/CronogramaEstados.jsx";
-import { Graficas } from "./components/Graficas.jsx";
-import { Botones } from "./components/Botones.jsx";
-import { Calculadora } from "./components/Formulario.jsx";
-import { Mensajes } from "./components/Mensajes.jsx";
-import { Modelo3D} from "./components/Modelo3D.jsx";
+import { useWebSocket } from "./hooks/useWebSocket.js";
+import { Status } from "./components/status.jsx";
+import { CronogramaEstados } from "./components/cronogramaEstados.jsx";
+import { Graficas } from "./components/graficas.jsx";
+import { Botones } from "./components/botones.jsx";
+import { Calculadora } from "./components/formulario.jsx";
+import { Mensajes } from "./components/mensajes.jsx";
+import { Modelo3D} from "./components/modelo3D.jsx";
 //hhhhhh
 
 export default function App() {

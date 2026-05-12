@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useBooster } from "../context/BoosterContext";
+import { useBooster } from "../context/boosterContext";
 
 export function Botones() {
     const [masa, setMasa] = useState(40); 

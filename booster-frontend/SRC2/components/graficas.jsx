@@ -1,4 +1,4 @@
-import { useBooster } from "../context/BoosterContext.jsx";
+import { useBooster } from "../context/boosterContext.jsx";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 
 export function Graficas() {

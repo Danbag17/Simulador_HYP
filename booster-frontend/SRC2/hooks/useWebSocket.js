@@ -1,5 +1,5 @@
 import { useEffect  } from "react";
-import { useBooster } from "../context/BoosterContext.jsx";
+import { useBooster } from "../context/boosterContext.jsx";
 
 const URL_Backend = "ws://localhost:5001/backend/stream";
 

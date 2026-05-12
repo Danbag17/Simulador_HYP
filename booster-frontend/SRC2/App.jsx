@@ -1,10 +1,10 @@
-import { useWebSocket } from "./hooks/useWebSocket";
+import { useWebSocket } from "./hooks/useWebSocket.js";
 import { Status } from "./components/Status";
 import { CronogramaEstados } from "./components/CronogramaEstados.jsx";
-import { Graficas } from "./components/graficas";
-import { Botones } from "./components/botones";
+import { Graficas } from "./components/graficas.jsx";
+import { Botones } from "./components/botones.jsx";
 import { Calculadora } from "./components/formulario.jsx";
-import { Mensajes } from "./components/Mensajes.jsx";
+import { Mensajes } from "./components/mensajes.jsx";
 import { Modelo3D} from "./components/modelo3D.jsx";
 import './App.css';
 

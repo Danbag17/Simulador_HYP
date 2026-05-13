@@ -30,7 +30,7 @@ export function Botones() {
                 method: "POST",
                 headers: { 
                     "Content-Type": "application/json",
-                    "ngrok-skip-browser-warning": "69420"
+                    "Bypass-Tunnel-Reminder": "true" 
                 },
                 body: JSON.stringify(bodyData)
             });

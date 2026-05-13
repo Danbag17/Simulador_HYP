@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/comandos",
-      "destination": "https://open-paths-wink.loca.lt"
+      "destination": "https://samuel-fifteen-diana-properties.trycloudflare.com/api/command"
     },
     {
       "source": "/(.*)",

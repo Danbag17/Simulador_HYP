@@ -1,8 +1,16 @@
 {
+  "framework": "vite",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist",
+  "installCommand": "npm install",
   "rewrites": [
     {
+      "source": "/api/calculate",
+      "destination": "https://TU-URL-DE-CLOUDFLARE.trycloudflare.com/api/calculate"
+    },
+    {
       "source": "/api/comandos",
-      "destination": "https://samuel-fifteen-diana-properties.trycloudflare.com/api/command"
+      "destination": "https://TU-URL-DE-CLOUDFLARE.trycloudflare.com/api/command"
     },
     {
       "source": "/(.*)",

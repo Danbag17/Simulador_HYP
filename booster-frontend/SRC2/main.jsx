@@ -1,4 +1,4 @@
-import { BoosterProvider } from "./context/BoosterContext";
+import { BoosterProvider } from "./context/boosterContext.jsx";
 import "./index.css";
 import App from "./App";
 import React from 'react';

@@ -26,9 +26,12 @@ export function Botones() {
              if (comando === "START") {
                 bodyData.payload = { mass: Number(masa) };
             }
-            const respuesta = await fetch("https://prideful-reroute-scrooge.ngrok-free.dev", {
+            const respuesta = await fetch("/api/comandos", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                headers: { 
+                    "Content-Type": "application/json",
+                    "ngrok-skip-browser-warning": "69420"
+                },
                 body: JSON.stringify(bodyData)
             });
 

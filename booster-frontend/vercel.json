@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/api/comandos",
-      "destination": " https://tiny-plants-invite.loca.lt"
+      "destination": " https://tiny-plants-invite.loca.lt/api/comandos"
     },
     {
       "source": "/(.*)",

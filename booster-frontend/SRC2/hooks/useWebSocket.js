@@ -2,7 +2,7 @@ import { useEffect  } from "react";
 import { useBooster } from "../context/boosterContext.jsx";
 
 //const URL_Backend = "ws://localhost:5001/backend/stream";
-const URL_Backend = "wss://prideful-reroute-scrooge.ngrok-free.dev/backend/stream";
+const URL_Backend = "https://circumstances-invention-warned-reproduction.trycloudflare.com";
 
 const MAX_PUNTOS = 40
 

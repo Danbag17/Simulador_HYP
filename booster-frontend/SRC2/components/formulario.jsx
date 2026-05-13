@@ -26,7 +26,7 @@ export function Calculadora() {
         setCargando(true);
 
         try {
-            const res = await fetch(`http://localhost:8001/api/calculate?m=${masaNum}&d=${distanciaNum}`);
+            const res = await fetch(`/api/calculate?m=${masaNum}&d=${distanciaNum}`);
 
             if (!res.ok) {
         

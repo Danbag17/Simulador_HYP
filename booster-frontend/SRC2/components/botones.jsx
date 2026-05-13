@@ -26,7 +26,7 @@ export function Botones() {
              if (comando === "START") {
                 bodyData.payload = { mass: Number(masa) };
             }
-            const respuesta = await fetch(" https://prideful-reroute-scrooge.ngrok-free.dev -> http://localhost:8001", {
+            const respuesta = await fetch("https://prideful-reroute-scrooge.ngrok-free.dev", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(bodyData)

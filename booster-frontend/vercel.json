@@ -6,11 +6,11 @@
   "rewrites": [
     {
       "source": "/api/calculate",
-      "destination": "https://TU-URL-DE-CLOUDFLARE.trycloudflare.com/api/calculate"
+      "destination": "https://samuel-fifteen-diana-properties.trycloudflare.com/api/calculate"
     },
     {
       "source": "/api/comandos",
-      "destination": "https://TU-URL-DE-CLOUDFLARE.trycloudflare.com/api/command"
+      "destination": "https://samuel-fifteen-diana-properties.trycloudflare.com/api/command"
     },
     {
       "source": "/(.*)",

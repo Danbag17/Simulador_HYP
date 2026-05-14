@@ -5,12 +5,12 @@
   "installCommand": "npm install",
   "rewrites": [
     {
-      "source": "/api/calculate",
-      "destination": "https://setting-commercial-gui-courtesy.trycloudflare.com"
+      "source": "/api/calculate(.*)",
+      "destination": "https://setting-commercial-gui-courtesy.trycloudflare.com/api/calculate$1"
     },
     {
       "source": "/api/comandos",
-      "destination": "https://setting-commercial-gui-courtesy.trycloudflare.com"
+      "destination": "https://setting-commercial-gui-courtesy.trycloudflare.com/api/command"
     },
     {
       "source": "/(.*)",

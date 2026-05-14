@@ -6,11 +6,11 @@
   "rewrites": [
     {
       "source": "/api/calculate",
-      "destination": "https://context-background-classified-contain.trycloudflare.com"
+      "destination": "https://setting-commercial-gui-courtesy.trycloudflare.com"
     },
     {
       "source": "/api/comandos",
-      "destination": "https://context-background-classified-contain.trycloudflare.com"
+      "destination": "https://setting-commercial-gui-courtesy.trycloudflare.com"
     },
     {
       "source": "/(.*)",

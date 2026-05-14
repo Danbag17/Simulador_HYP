@@ -1,72 +1,99 @@
-import { useEffect  } from "react";
+import { useEffect, useRef } from "react";
 import { useBooster } from "../context/boosterContext.jsx";
 
-//const URL_Backend = "ws://localhost:5001/backend/stream";
 const URL_Backend = "wss://lamp-proxy-abstracts-worker.trycloudflare.com/backend/stream";
-
-const MAX_PUNTOS = 40
+const MAX_PUNTOS = 40;
+const RECONNECT_DELAY_MS = 3000;   // espera 3 s antes de reconectar
+const PING_INTERVAL_MS  = 30000;   // envía un ping cada 30 s para mantener viva la conexión
 
 export function useWebSocket() {
-    
-    
-      // estado de la conexión WebSocket
-          
-    
-    const { setConectado ,setTelemetria  , setHistorial , setMensajes} = useBooster();
+    const { setConectado, setTelemetria, setHistorial, setMensajes } = useBooster();
+
+    // Usamos refs para que los closures de los handlers siempre vean los valores actuales
+    const socketRef   = useRef(null);
+    const pingRef     = useRef(null);
+    const shouldReconnect = useRef(true);   // false solo cuando el componente se desmonta
 
     useEffect(() => {
-        
-        const socket = new WebSocket(URL_Backend);
+        function connect() {
+            if (!shouldReconnect.current) return;
 
-        socket.onopen = () => {
-            console.log(" Conectado al simulador ");
-            setConectado(true);
-        };
+            console.log("[WS] Conectando...");
+            const socket = new WebSocket(URL_Backend);
+            socketRef.current = socket;
 
-        socket.onmessage = (evento) => {
-            const datosNuevos = JSON.parse(evento.data);
-            if(datosNuevos.topic == "data"){
-                console.log("Datos recibidos:", datosNuevos);
-                 setTelemetria(datosNuevos.payload);
+            socket.onopen = () => {
+                console.log("[WS] Conectado al simulador");
+                setConectado(true);
 
-
-                setHistorial(prev => {
-                    const nuevo = [...prev, { ...datosNuevos.payload, t: Date.now() }]
-                    if (nuevo.length > MAX_PUNTOS) {
-                        return nuevo.slice(nuevo.length - MAX_PUNTOS)
+                // Ping periódico: evita que Cloudflare cierre la conexión por inactividad
+                // Enviamos un string vacío; el backend puede ignorarlo o responder
+                pingRef.current = setInterval(() => {
+                    if (socket.readyState === WebSocket.OPEN) {
+                        try {
+                            socket.send(JSON.stringify({ topic: "ping" }));
+                        } catch (_) {
+                            // si falla el send la conexión ya se cerró, onclose se encargará
+                        }
                     }
-                    return nuevo
-                    })
-                
-            }else if (datosNuevos.topic === "message") {
-                const payload = datosNuevos.payload;
-                
-                setMensajes(prev => {
-                    // Le añadimos la hora exacta al mensaje
-                    const nuevoMensaje = { ...payload, hora: new Date().toLocaleTimeString() };
-                    // Lo ponemos el primero de la lista
-                    const nuevaLista = [nuevoMensaje, ...prev];
-                    
-                    // Nos quedamos solo con los 10 últimos para que no explote la web
-                    return nuevaLista.slice(0, 10); 
-                });
-            }
+                }, PING_INTERVAL_MS);
+            };
+
+            socket.onmessage = (evento) => {
+                let datosNuevos;
+                try {
+                    datosNuevos = JSON.parse(evento.data);
+                } catch {
+                    return; // ignorar mensajes malformados
+                }
+
+                if (datosNuevos.topic === "data") {
+                    setTelemetria(datosNuevos.payload);
+                    setHistorial(prev => {
+                        const nuevo = [...prev, { ...datosNuevos.payload, t: Date.now() }];
+                        return nuevo.length > MAX_PUNTOS
+                            ? nuevo.slice(nuevo.length - MAX_PUNTOS)
+                            : nuevo;
+                    });
+
+                } else if (datosNuevos.topic === "message") {
+                    const payload = datosNuevos.payload;
+                    setMensajes(prev => {
+                        const nuevoMensaje = { ...payload, hora: new Date().toLocaleTimeString() };
+                        return [nuevoMensaje, ...prev].slice(0, 10);
+                    });
+
+                } else if (datosNuevos.topic === "pong") {
+                    // el backend confirma el ping, no hace falta hacer nada
+                }
+            };
+
+            socket.onclose = (event) => {
+                console.warn(`[WS] Desconectado (code=${event.code}). Reconectando en ${RECONNECT_DELAY_MS / 1000}s...`);
+                setConectado(false);
+                clearInterval(pingRef.current);
+
+                if (shouldReconnect.current) {
+                    setTimeout(connect, RECONNECT_DELAY_MS);
+                }
+            };
+
+            socket.onerror = (err) => {
+                console.error("[WS] Error de conexión:", err);
+                // onclose se disparará justo después, allí hacemos la reconexión
+            };
         }
 
-          socket.onclose = () => {
-             setConectado(false)
-            console.log(" Desconectado del simulador");
-        }
+        shouldReconnect.current = true;
+        connect();
 
-        socket.onerror = () => {
-            setConectado(false)
-            console.error("Error en la conexión WebSocket");
-        }
-
+        // Limpieza al desmontar el componente
         return () => {
-            socket.close();
-            console.log(" Desconectado del simulador");
+            shouldReconnect.current = false;
+            clearInterval(pingRef.current);
+            if (socketRef.current) {
+                socketRef.current.close(1000, "componente desmontado");
+            }
         };
-
-    }, []); 
+    }, []); // eslint-disable-line react-hooks/exhaustive-deps
 }

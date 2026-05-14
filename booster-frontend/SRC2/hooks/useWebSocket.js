@@ -2,7 +2,7 @@ import { useEffect  } from "react";
 import { useBooster } from "../context/boosterContext.jsx";
 
 //const URL_Backend = "ws://localhost:5001/backend/stream";
-const URL_Backend = "wss://lamp-proxy-abstracts-worker.trycloudflare.com";
+const URL_Backend = "wss://lamp-proxy-abstracts-worker.trycloudflare.com/backend/stream";
 
 const MAX_PUNTOS = 40
 
